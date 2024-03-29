@@ -33,9 +33,9 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
     void Setup()
     {
         dotsCollection = new Dot[width, height];
-        for (int col = 0; col < width; col++)
+        for (int col = width-1; col > 0; col--)
         {
-            for (int row = 0; row < height; row++)
+            for (int row = height-1; row > 0; row--)
             {
                 dotsCollection[row, col] = CreateDot(col, row);
             }
@@ -43,6 +43,7 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
 
         currentPathDisplay.enabled = false;
         currentPathDisplay.positionCount = 0;
+        Debug.LogError("Setup");
     }
 
     private string GenerateDotName(int col, int row)
@@ -109,7 +110,8 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
             {
                 // remove each cleared dot from the board's dot collection
                 dotsCollection[dot.Row, dot.Column] = null;
-                for (int i = dot.Row; i >= 0; i--)
+                // for (int i = dot.Row; i >= 0; i--)
+                for (int i = 0; i < dot.Row; i++)
                 {
                     // each dot below the cleared dot will be shifted into the cleared up space
                     var adjcantDot = dotsCollection[i, dot.Column];
@@ -145,10 +147,11 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
 
     IEnumerator CreateAndShowNewDots(float delay)
     {
+        Debug.LogError("CreateAndShowNewDots");
         yield return new WaitForSeconds(delay);
-        for (int row = 0; row < height; row++)
+        for (int row = height-1; row > 0; row--)
         {
-            for (int col = 0; col < width; col++)
+            for (int col = width-1; col > 0; col--)
             {
                 if (dotsCollection[row, col] == null)
                 {
