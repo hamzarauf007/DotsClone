@@ -33,9 +33,9 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
     void Setup()
     {
         dotsCollection = new Dot[width, height];
-        for (int col = width-1; col > 0; col--)
+        for (int col = 0; col < width; col++)
         {
-            for (int row = height-1; row > 0; row--)
+            for (int row = 0; row < height; row++)
             {
                 dotsCollection[row, col] = CreateDot(col, row);
             }
@@ -43,7 +43,6 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
 
         currentPathDisplay.enabled = false;
         currentPathDisplay.positionCount = 0;
-        Debug.LogError("Setup");
     }
 
     private string GenerateDotName(int col, int row)
@@ -106,37 +105,29 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
         if (currentDotPath.Count > 1)
         {
             bool hasTransitioningDots = false;
-            foreach (var dot in currentDotPath.OrderBy(d => d.Row))
+            foreach (var dot in currentDotPath.OrderBy(d => -d.Row)) // Invert the order
             {
-                // remove each cleared dot from the board's dot collection
                 dotsCollection[dot.Row, dot.Column] = null;
-                // for (int i = dot.Row; i >= 0; i--)
-                for (int i = 0; i < dot.Row; i++)
+                for (int i = dot.Row; i < height; i++) // Start moving dots downwards, not upwards
                 {
-                    // each dot below the cleared dot will be shifted into the cleared up space
-                    var adjcantDot = dotsCollection[i, dot.Column];
-                    if (adjcantDot && !currentDotPath.Contains(adjcantDot))
+                    var aboveDot = (i + 1 < height) ? dotsCollection[i + 1, dot.Column] : null;
+                    if (aboveDot != null && !currentDotPath.Contains(aboveDot))
                     {
-                        dotsCollection[adjcantDot.Row, adjcantDot.Column] = null;
-                        adjcantDot.Row += 1;
-                        dotsCollection[adjcantDot.Row, adjcantDot.Column] = adjcantDot;
-                        adjcantDot.gameObject.name = GenerateDotName(adjcantDot.Column, adjcantDot.Row);
+                        dotsCollection[i + 1, dot.Column] = null;
+                        aboveDot.Row -= 1; // Move down, not up
+                        dotsCollection[aboveDot.Row, aboveDot.Column] = aboveDot;
+                        aboveDot.gameObject.name = GenerateDotName(aboveDot.Column, aboveDot.Row);
 
-                        // invoke the shift movement as a neat smooth transition for each moved dot
-                        StartCoroutine(UIHelpers.TweenPosition(adjcantDot.transform, new Vector2(adjcantDot.Column, adjcantDot.Row), 0.3f));
+                        StartCoroutine(UIHelpers.TweenPosition(aboveDot.transform, new Vector2(aboveDot.Column, aboveDot.Row), 0.3f));
                         hasTransitioningDots = true;
                     }
                 }
             }
-            // create new dots _after_ all current dots have shifted into the cleared spaces
             StartCoroutine(CreateAndShowNewDots(hasTransitioningDots ? 0.3f : 0f));
-
-            // destroy all the cleared up dots
             currentDotPath.ForEach(d => Destroy(d.gameObject));
         }
         else
         {
-            // in case there was only one dot on the path, just deactivate the highlighting
             currentDotPath.ForEach(d => d.Deactivate());
         }
 
@@ -145,21 +136,21 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
         currentDotPath.Clear();
     }
 
+
     IEnumerator CreateAndShowNewDots(float delay)
     {
-        Debug.LogError("CreateAndShowNewDots");
         yield return new WaitForSeconds(delay);
-        for (int row = height-1; row > 0; row--)
+        for (int col = 0; col < width; col++)
         {
-            for (int col = width-1; col > 0; col--)
+            for (int row = height - 1; row >= 0; row--) // Check from the top down
             {
                 if (dotsCollection[row, col] == null)
                 {
                     var newDot = CreateDot(col, row);
                     dotsCollection[row, col] = newDot;
-                    // spawn and transition the new dot a bit off-screen
-                    newDot.transform.position = new Vector3(newDot.Column, -width / 2);
-                    StartCoroutine(UIHelpers.TweenPosition(newDot.transform, new Vector3(newDot.Column, newDot.Row), 0.2f));
+                    // Position new dots just below the visible area, then move them up
+                    newDot.transform.position = new Vector3(col, 8); // Start below the board
+                    StartCoroutine(UIHelpers.TweenPosition(newDot.transform, new Vector3(col, row), 0.2f));
                 }
             }
         }

@@ -52,7 +52,7 @@ public class InputController : SingletonMonoBehaviour<InputController>
         currentDotPath.Clear();
     }
 
-    public void OnDotTouched(Dot dot)
+    private void OnDotTouched(Dot dot)
     {
         //Debug.Log("new dot touched : " + dot.name);
         BoardController.Instance.UpdateDotSelection(dot, currentDotPath);
