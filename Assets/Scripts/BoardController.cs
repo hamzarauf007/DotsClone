@@ -101,6 +101,7 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
                 {
                     dot.Activate();
                     currentDotPath.Add(dot);
+                    SetPathDisplayColor(currentPathDisplay, dot.color);
                 }
             }
         }
@@ -108,7 +109,6 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
         // Update the line renderer to reflect the current path
         currentPathDisplay.positionCount = currentDotPath.Count;
         currentPathDisplay.enabled = currentPathDisplay.positionCount > 0;
-        SetPathDisplayColor(currentPathDisplay, dot.color);
         currentPathDisplay.SetPositions(currentDotPath.Select(d => d.transform.position).ToArray());
     }
 
@@ -124,44 +124,73 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
 
         DynamicGI.SetEmissive(renderer, color);
     }
-
-
-    public void FinalizeDotSelection(List<Dot> currentDotPath)
+    
+   public void FinalizeDotSelection(List<Dot> currentDotPath)
     {
         if (currentDotPath.Count > 1)
         {
             bool hasTransitioningDots = false;
-            foreach (var dot in currentDotPath.OrderBy(d => -d.Row)) // Invert the order
-            {
-                dotsCollection[dot.Row, dot.Column] = null;
-                for (int i = dot.Row; i < height; i++) // Start moving dots downwards, not upwards
-                {
-                    var aboveDot = (i + 1 < height) ? dotsCollection[i + 1, dot.Column] : null;
-                    if (aboveDot != null && !currentDotPath.Contains(aboveDot))
-                    {
-                        dotsCollection[i + 1, dot.Column] = null;
-                        aboveDot.Row -= 1; // Move down, not up
-                        dotsCollection[aboveDot.Row, aboveDot.Column] = aboveDot;
-                        aboveDot.gameObject.name = GenerateDotName(aboveDot.Column, aboveDot.Row);
 
-                        StartCoroutine(UIHelpers.TweenPosition(aboveDot.transform, new Vector2(aboveDot.Column, aboveDot.Row), 0.3f));
-                        hasTransitioningDots = true;
+            // Mark all dots in the path for removal, except the last one
+            foreach (var dot in currentDotPath)
+            {
+                if (dot != currentDotPath.Last())
+                {
+                    dotsCollection[dot.Row, dot.Column] = null;
+                }
+            }
+
+            // Move dots down if needed, including the last dot if there's space below it
+            for (int col = 0; col < width; col++)
+            {
+                for (int row = 0; row < height - 1; row++) // Exclude the top row as there's nothing above it to fall down
+                {
+                    if (dotsCollection[row, col] == null) // Found an empty space
+                    {
+                        // Look above to find the next non-null dot to move down
+                        for (int i = row + 1; i < height; i++)
+                        {
+                            if (dotsCollection[i, col] != null)
+                            {
+                                // Move this dot down into the empty space
+                                Dot dotToMove = dotsCollection[i, col];
+                                dotsCollection[i, col] = null; // Remove from current position
+                                dotsCollection[row, col] = dotToMove;
+                                dotToMove.Row = row; // Update its row to the new position
+                                dotToMove.gameObject.name = GenerateDotName(dotToMove.Column, dotToMove.Row);
+                                
+                                StartCoroutine(UIHelpers.TweenPosition(dotToMove.transform, new Vector2(col, row), 0.3f));
+                                hasTransitioningDots = true;
+
+                                break; // Break since we've found a dot to move down into this space
+                            }
+                        }
                     }
                 }
             }
+
+            // Destroy all dots except the last one
+            for (int i = 0; i < currentDotPath.Count - 1; i++)
+            {
+                Destroy(currentDotPath[i].gameObject);
+            }
+
             StartCoroutine(CreateAndShowNewDots(hasTransitioningDots ? 0.3f : 0.3f));
-            currentDotPath.ForEach(d => Destroy(d.gameObject));
         }
         else
         {
+            // If there was only one dot, simply deactivate it
             currentDotPath.ForEach(d => d.Deactivate());
         }
 
+        // Reset the path display
         currentPathDisplay.enabled = false;
         currentPathDisplay.positionCount = 0;
         currentDotPath.Clear();
     }
 
+
+    
 
     IEnumerator CreateAndShowNewDots(float delay)
     {

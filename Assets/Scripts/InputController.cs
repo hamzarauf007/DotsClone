@@ -14,7 +14,7 @@ public class InputController : SingletonMonoBehaviour<InputController>
     private float touchAngle = 0;
     private bool isDragging = false;
 
-    private List<Dot> currentDotPath = new List<Dot>();
+    public List<Dot> currentDotPath = new List<Dot>();
 
     void Start()
     {
