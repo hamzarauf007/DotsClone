@@ -68,37 +68,37 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
     {
         if (currentDotPath.Count == 0)
         {
-            // highlight a new dot
+            // Highlight a new dot
             dot.Activate();
             currentDotPath.Add(dot);
         }
         else
         {
-            // highlight a new dot on the path if the dot is selectable according to the game rules
+            // Highlight a new dot on the path if the dot is selectable according to the game rules
             Dot lastDot = currentDotPath[currentDotPath.Count - 1];
             int lastDotX = lastDot.Column;
             int lastDotY = lastDot.Row;
             int newDotX = dot.Column;
             int newDotY = dot.Row;
             if (
-                lastDot != dot &&                                   // not same as last dot
-                lastDot.DotType == dot.DotType &&                   // same type of dot
-                !currentDotPath.Contains(dot) &&                    // not already in current path
-                Mathf.Abs(newDotX - lastDotX) <= 1 &&               // only one step away on the board horizontally
-                Mathf.Abs(newDotY - lastDotY) <= 1 &&               // only one step away on the board vertically
-                (newDotX == lastDotX || newDotY == lastDotY)        // only horizontal/vertical dot connections are allowed
-               )
+                lastDot != dot &&                                   // Not the same as the last dot
+                lastDot.DotType == dot.DotType &&                   // Same type of dot
+                !currentDotPath.Contains(dot) &&                    // Not already in the current path
+                Mathf.Abs(newDotX - lastDotX) <= 1 &&               // Only one step away on the board horizontally or diagonally
+                Mathf.Abs(newDotY - lastDotY) <= 1                  // Only one step away on the board vertically or diagonally
+            )
             {
                 dot.Activate();
                 currentDotPath.Add(dot);
             }
         }
 
-        // display the path as connected lines
+        // Display the path as connected lines
         currentPathDisplay.positionCount = currentDotPath.Count;
         currentPathDisplay.enabled = currentPathDisplay.positionCount > 0;
         currentPathDisplay.SetPositions(currentDotPath.Select(d => d.transform.position).ToArray());
     }
+
 
     public void FinalizeDotSelection(List<Dot> currentDotPath)
     {
