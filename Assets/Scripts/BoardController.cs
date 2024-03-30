@@ -68,36 +68,49 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
     {
         if (currentDotPath.Count == 0)
         {
-            // Highlight a new dot
+            // Highlight the first selected dot
             dot.Activate();
             currentDotPath.Add(dot);
         }
         else
         {
-            // Highlight a new dot on the path if the dot is selectable according to the game rules
             Dot lastDot = currentDotPath[currentDotPath.Count - 1];
-            int lastDotX = lastDot.Column;
-            int lastDotY = lastDot.Row;
-            int newDotX = dot.Column;
-            int newDotY = dot.Row;
-            if (
-                lastDot != dot &&                                   // Not the same as the last dot
-                lastDot.DotType == dot.DotType &&                   // Same type of dot
-                !currentDotPath.Contains(dot) &&                    // Not already in the current path
-                Mathf.Abs(newDotX - lastDotX) <= 1 &&               // Only one step away on the board horizontally or diagonally
-                Mathf.Abs(newDotY - lastDotY) <= 1                  // Only one step away on the board vertically or diagonally
-            )
+
+            // Check if the newly selected dot is the penultimate in the current path (for deselection)
+            if (currentDotPath.Count > 1 && dot == currentDotPath[currentDotPath.Count - 2])
             {
-                dot.Activate();
-                currentDotPath.Add(dot);
+                // Deselect the last dot in the path
+                lastDot.Deactivate();
+                currentDotPath.RemoveAt(currentDotPath.Count - 1);
+            }
+            else
+            {
+                // Select a new dot if it's adjacent to the last dot and not already part of the path
+                int lastDotX = lastDot.Column;
+                int lastDotY = lastDot.Row;
+                int newDotX = dot.Column;
+                int newDotY = dot.Row;
+
+                if (
+                    lastDot != dot &&                                   // Not the same as the last dot
+                    lastDot.DotType == dot.DotType &&                   // Same type of dot
+                    !currentDotPath.Contains(dot) &&                    // Not already in the current path
+                    Mathf.Abs(newDotX - lastDotX) <= 1 &&               // Only one step away on the board horizontally or diagonally
+                    Mathf.Abs(newDotY - lastDotY) <= 1                  // Only one step away on the board vertically or diagonally
+                )
+                {
+                    dot.Activate();
+                    currentDotPath.Add(dot);
+                }
             }
         }
 
-        // Display the path as connected lines
+        // Update the line renderer to reflect the current path
         currentPathDisplay.positionCount = currentDotPath.Count;
         currentPathDisplay.enabled = currentPathDisplay.positionCount > 0;
         currentPathDisplay.SetPositions(currentDotPath.Select(d => d.transform.position).ToArray());
     }
+
 
 
     public void FinalizeDotSelection(List<Dot> currentDotPath)
