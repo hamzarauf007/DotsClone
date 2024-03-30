@@ -108,9 +108,22 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
         // Update the line renderer to reflect the current path
         currentPathDisplay.positionCount = currentDotPath.Count;
         currentPathDisplay.enabled = currentPathDisplay.positionCount > 0;
+        SetPathDisplayColor(currentPathDisplay, dot.color);
         currentPathDisplay.SetPositions(currentDotPath.Select(d => d.transform.position).ToArray());
     }
 
+    private void SetPathDisplayColor(LineRenderer path,Color color)
+    {
+        Renderer renderer = path.GetComponent<Renderer>();
+        Material mat = renderer.material;
+
+     
+        mat.EnableKeyword("_EMISSION");
+
+        mat.SetColor("_EmissionColor", color);
+
+        DynamicGI.SetEmissive(renderer, color);
+    }
 
 
     public void FinalizeDotSelection(List<Dot> currentDotPath)

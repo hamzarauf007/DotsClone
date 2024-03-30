@@ -13,11 +13,12 @@ public class Dot : MonoBehaviour
     public GameObject highlight = null;
     public int Row = 0;
     public int Column = 0;
+    public Color color;
 
     // Use this for initialization
     void Start()
     {
-
+        color = GetComponent<SpriteRenderer>().color;
     }
 
     // Update is called once per frame
