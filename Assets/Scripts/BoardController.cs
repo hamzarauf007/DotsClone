@@ -123,7 +123,7 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
                     }
                 }
             }
-            StartCoroutine(CreateAndShowNewDots(hasTransitioningDots ? 0.3f : 0f));
+            StartCoroutine(CreateAndShowNewDots(hasTransitioningDots ? 0.3f : 0.3f));
             currentDotPath.ForEach(d => Destroy(d.gameObject));
         }
         else
@@ -149,7 +149,7 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
                     var newDot = CreateDot(col, row);
                     dotsCollection[row, col] = newDot;
                     // Position new dots just below the visible area, then move them up
-                    newDot.transform.position = new Vector3(col, 8); // Start below the board
+                    newDot.transform.position = new Vector3(col, row); // Start below the board
                     StartCoroutine(UIHelpers.TweenPosition(newDot.transform, new Vector3(col, row), 0.2f));
                 }
             }
