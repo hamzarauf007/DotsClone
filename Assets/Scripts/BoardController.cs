@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UI;
 
-/// <summary>
-/// Board controller - manages the game logic and the overall board state & display
-/// </summary>
 public class BoardController : SingletonMonoBehaviour<BoardController>
 {
 
@@ -23,11 +19,6 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
     void Start()
     {
         Setup();
-    }
-
-    void Update()
-    {
-
     }
 
     void Setup()

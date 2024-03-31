@@ -1,11 +1,8 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DotSpawner : MonoBehaviour
 {
-    // public GameObject dotPrefab;
-
     public int maxSeq = 10000;
     public int colorSpread = 1;
 
