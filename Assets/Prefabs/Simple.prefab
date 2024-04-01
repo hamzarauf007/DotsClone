@@ -134,11 +134,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 097ff1b1afd794820828aa35a7df1d84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprite: {fileID: 212350468001337522}
   DotType: 0
-  dotValue: 0
   Row: 0
   Column: 0
-  color: {r: 0, g: 0, b: 0, a: 0}
+  spriteColor: {r: 0, g: 0, b: 0, a: 0}
+  text: {fileID: 9139946864165483463}
 --- !u!1 &4218901349323454506
 GameObject:
   m_ObjectHideFlags: 0

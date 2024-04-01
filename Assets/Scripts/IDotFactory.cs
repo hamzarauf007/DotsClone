@@ -2,6 +2,6 @@ using UnityEngine;
 
 public interface IDotFactory
 {
-    Dot GetDot(Vector2 position);
+    Dot GetDot(int col, int row);
     void ReturnDot(Dot dot);
 }

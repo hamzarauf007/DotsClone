@@ -10,7 +10,8 @@ public class DotPool : MonoBehaviour
     public GameObject dotPrefab;
     
     private Queue<Dot> availableDots = new Queue<Dot>();
-    private Dictionary<int, Color> sequence = new Dictionary<int, Color>();
+    
+    public readonly Dictionary<int, Color> sequence = new Dictionary<int, Color>();
 
     private void Start()
     {
