@@ -11,8 +11,8 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
     public int height = 5;
     
     public LineRenderer currentPathDisplay = null;
-
     public DotFactory dotFactory;
+    public DotPool dotPool;
     
     private Dot[,] dotsCollection;
 
@@ -38,24 +38,13 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
 
     private Dot CreateDot(int col, int row)
     {
-        // select a type of dot at random from our dot prefabs
-        // int typeOfDot = UnityEngine.Random.Range(0, dotPrefabs.Length);
-        // Vector2 tmpPos = new Vector2(col, row);
-        // GameObject newDot = Instantiate<GameObject>(dotPrefabs[typeOfDot], tmpPos, Quaternion.identity);
         return  dotFactory.GetDot(col, row);
-        // newDot.gameObject.name = GenerateDotName(col, row);
-        // newDot.transform.parent = this.transform;
-        // Dot dotCtl = newDot.GetComponent<Dot>();
-        // setup the dot properties
-        // dotCtl.Setup(typeOfDot, row, col);
-        // return dotCtl;
     }
 
     public void UpdateDotSelection(Dot dot, List<Dot> currentDotPath)
     {
         if (currentDotPath.Count == 0)
         {
-            // Highlight the first selected dot
             dot.Activate();
             currentDotPath.Add(dot);
         }
@@ -130,8 +119,11 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
                     StartCoroutine(UIHelpers.TweenPosition(dot.transform, lastDotPosition, 0.2f, () =>
                     {
                         tweensCompleted++;
-                        Destroy(dot.gameObject); // Destroy the dot after it reaches the last dot's position
-
+                        dotPool.ReturnDotToPool(dot);
+                        
+                        // Destroy(dot.gameObject);
+                        dotsCollection[dot.Row, dot.Column] = null;
+                        
                         if (tweensCompleted == dotsToTween)
                         {
                             // Once all dots have finished tweening, proceed to move remaining dots down after a delay
@@ -174,7 +166,7 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
                             dotsCollection[i, col] = null; // Remove from current position
                             dotsCollection[row, col] = dotToMove;
                             dotToMove.Row = row; // Update its row to the new position
-                            // dotToMove.gameObject.name = GenerateDotName(dotToMove.Column, dotToMove.Row); // work work
+                            dotToMove.gameObject.name = dotFactory.GenerateDotName(dotToMove.Column, dotToMove.Row);
                             
                             StartCoroutine(UIHelpers.TweenPosition(dotToMove.transform, new Vector2(col, row), 0.2f));
                             break; // Break since we've found a dot to move down into this space

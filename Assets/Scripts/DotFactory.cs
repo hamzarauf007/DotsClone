@@ -3,9 +3,9 @@ using UnityEngine;
 public class DotFactory : MonoBehaviour, IDotFactory
 {
     public Transform board;
-    
     public DotPool dotPool;
-    
+
+    public int interval = 4;
 
     public Dot GetDot(int col, int row)
     {
@@ -21,8 +21,6 @@ public class DotFactory : MonoBehaviour, IDotFactory
         dot.Setup(value, row, col, çolor);
         return dot;
     }
-    
-    // ma abi isko name assign karna laga tha aur ya soch raha tha ka yahe pa he isko ma transform assign kar do
 
     public void ReturnDot(Dot dot)
     {
@@ -31,19 +29,30 @@ public class DotFactory : MonoBehaviour, IDotFactory
 
     private int CalculateValueForDot()
     {
-        // Placeholder for dot value calculation logic
-        return Random.Range(1, 50001) * 2; // Example: Generates even values between 2 and 100,000
+        int exponent = Random.Range(1, interval);
+
+        // Calculate 2 to the power of 'exponent'
+        return (int)Mathf.Pow(2, exponent);
     }
 
     private Color CalculateColorForValue(int value)
     {
         // Placeholder for color determination logic
         // This method should map the value to a specific color
-        return new Color(Random.value, Random.value, Random.value); // Example: Random color
+        if (dotPool.sequence.ContainsKey(value))
+        {
+            // Retrieve the value associated with the key
+            return dotPool.sequence[value];
+        }
+        else
+        {
+            Debug.LogError($"Color against value {value} doesn't exist");
+            return Color.black;
+        }
     }
     
-    private string GenerateDotName(int col, int row)
+    public string GenerateDotName(int col, int row)
     {
-        return string.Format("Dot ({0},{1})", col, row);
+        return $"Dot ({col},{row})";
     }
 }

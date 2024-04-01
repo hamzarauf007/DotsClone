@@ -13,7 +13,7 @@ public class DotPool : MonoBehaviour
     
     public readonly Dictionary<int, Color> sequence = new Dictionary<int, Color>();
 
-    private void Start()
+    private void Awake()
     {
         GenerateSequenceUpToMax(maxSeq);
         InitializePool();
@@ -31,7 +31,7 @@ public class DotPool : MonoBehaviour
             float blue = Mathf.Sin(frequency * i + 4) * 0.5f + 0.5f;
             Color color = new Color(red, green, blue);
             
-            Debug.LogError(currentValue);
+            // Debug.LogError(currentValue);
             sequence.Add(currentValue,color);
             currentValue *= 2;
             i = currentValue;
@@ -68,6 +68,8 @@ public class DotPool : MonoBehaviour
 
     public void ReturnDotToPool(Dot dot)
     {
+        Debug.Log(dot.gameObject.name);
+        dot.transform.parent = transform;
         dot.gameObject.SetActive(false);
         availableDots.Enqueue(dot);
     }
