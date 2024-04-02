@@ -1,25 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Input controller - manages all input events for the game
-/// </summary>
 public class InputController : SingletonMonoBehaviour<InputController>
 {
-
-
-    private Vector2 firstTouchPosition = Vector2.zero;
-    private Vector2 lastTouchPosition = Vector2.zero;
     private float touchAngle = 0;
     private bool isDragging = false;
 
-    public List<Dot> currentDotPath = new List<Dot>();
-
-    void Start()
-    {
-
-    }
+    private List<Dot> currentDotPath = new List<Dot>();
 
     void Update()
     {
@@ -47,8 +34,8 @@ public class InputController : SingletonMonoBehaviour<InputController>
     private void OnFinishedTouch()
     {
         isDragging = false;
-        BoardController.Instance.FinalizeDotSelection(currentDotPath);
         // clear selection
+        BoardController.Instance.FinalizeDotSelection(currentDotPath);
         currentDotPath.Clear();
     }
 

@@ -4,6 +4,7 @@ public class DotFactory : MonoBehaviour, IDotFactory
 {
     public Transform board;
     public DotPool dotPool;
+    public DotsColorGenerator dotsColorGenerator;
 
     public int interval = 4;
 
@@ -17,7 +18,6 @@ public class DotFactory : MonoBehaviour, IDotFactory
         // Here, you could also set the dot's value and color
         int value = CalculateValueForDot(); // Implement this method based on your game logic
         Color çolor = CalculateColorForValue(value); // Implement this method based on your game logic
-        // dot.Initialize(value, color);
         dot.Setup(value, row, col, çolor);
         return dot;
     }
@@ -39,10 +39,10 @@ public class DotFactory : MonoBehaviour, IDotFactory
     {
         // Placeholder for color determination logic
         // This method should map the value to a specific color
-        if (dotPool.sequence.ContainsKey(value))
+        if (dotsColorGenerator.sequence.ContainsKey(value))
         {
             // Retrieve the value associated with the key
-            return dotPool.sequence[value];
+            return dotsColorGenerator.sequence[value];
         }
         else
         {

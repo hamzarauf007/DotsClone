@@ -4,38 +4,14 @@ using UnityEngine;
 public class DotPool : MonoBehaviour
 {
     public int initialPoolSize = 50;
-    public int maxSeq = 10000;
-    public int colorSpread = 1;
     
     public GameObject dotPrefab;
     
     private Queue<Dot> availableDots = new Queue<Dot>();
-    
-    public readonly Dictionary<int, Color> sequence = new Dictionary<int, Color>();
 
     private void Awake()
     {
-        GenerateSequenceUpToMax(maxSeq);
         InitializePool();
-    }
-    
-    private void GenerateSequenceUpToMax(int maxValue)
-    {
-        int currentValue = 2;
-
-        for (int i = 0; i < maxValue;)
-        {
-            float frequency = colorSpread;
-            float red = Mathf.Sin(frequency * i + 0) * 0.5f + 0.5f;
-            float green = Mathf.Sin(frequency * i + 2) * 0.5f + 0.5f;
-            float blue = Mathf.Sin(frequency * i + 4) * 0.5f + 0.5f;
-            Color color = new Color(red, green, blue);
-            
-            // Debug.LogError(currentValue);
-            sequence.Add(currentValue,color);
-            currentValue *= 2;
-            i = currentValue;
-        }
     }
 
     private void InitializePool()
@@ -73,6 +49,4 @@ public class DotPool : MonoBehaviour
         dot.gameObject.SetActive(false);
         availableDots.Enqueue(dot);
     }
-    
-    
 }

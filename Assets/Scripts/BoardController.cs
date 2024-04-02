@@ -14,6 +14,9 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
     public DotFactory dotFactory;
     public DotPool dotPool;
     
+    [SerializeField]
+    private int sumValue = 0;
+    
     private Dot[,] dotsCollection;
 
     void Start()
@@ -45,6 +48,7 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
     {
         if (currentDotPath.Count == 0)
         {
+            SumOfDots(dot.DotType);
             dot.Activate();
             currentDotPath.Add(dot);
         }
@@ -55,6 +59,7 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
             // Check if the newly selected dot is the penultimate in the current path (for deselection)
             if (currentDotPath.Count > 1 && dot == currentDotPath[currentDotPath.Count - 2])
             {
+                SumOfDots(-dot.DotType);
                 // Deselect the last dot in the path
                 lastDot.Deactivate();
                 currentDotPath.RemoveAt(currentDotPath.Count - 1);
@@ -75,6 +80,7 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
                     Mathf.Abs(newDotY - lastDotY) <= 1                  // Only one step away on the board vertically or diagonally
                 )
                 {
+                    SumOfDots(dot.DotType);
                     dot.Activate();
                     currentDotPath.Add(dot);
                     SetPathDisplayColor(currentPathDisplay, dot.spriteColor);
@@ -120,8 +126,6 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
                     {
                         tweensCompleted++;
                         dotPool.ReturnDotToPool(dot);
-                        
-                        // Destroy(dot.gameObject);
                         dotsCollection[dot.Row, dot.Column] = null;
                         
                         if (tweensCompleted == dotsToTween)
@@ -137,6 +141,7 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
         {
             // If there was only one dot, simply deactivate it
             currentDotPath.ForEach(d => d.Deactivate());
+            SumOfDots(0);
         }
 
         // Reset the path display
@@ -199,4 +204,18 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
         }
         yield return true;
     }
+
+    private void SumOfDots(int value)
+    {
+        if (value != 0)
+        {
+            sumValue += value;
+        }
+        else
+        {
+            sumValue = 0;
+        }
+    }
+
+
 }
