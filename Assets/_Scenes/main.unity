@@ -503,6 +503,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1202435329
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1202435331}
+  - component: {fileID: 1202435330}
+  m_Layer: 0
+  m_Name: Display Dot Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1202435330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202435329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c87044ed3055a4fc6bdb64e2434550ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 9139946863702694113}
+  sprite: {fileID: 212350468476451732}
+  obj: {fileID: 1522068306222396}
+  dotsColorGenerator: {fileID: 1353404645}
+--- !u!4 &1202435331
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202435329}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1353404644
 GameObject:
   m_ObjectHideFlags: 0
@@ -583,7 +631,7 @@ MonoBehaviour:
   currentPathDisplay: {fileID: 760690397}
   dotFactory: {fileID: 1768637031}
   dotPool: {fileID: 1016079817}
-  displayDot: {fileID: 212350468476451733}
+  displayDot: {fileID: 1202435330}
 --- !u!4 &1701944361
 Transform:
   m_ObjectHideFlags: 0
@@ -785,14 +833,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4158314235517914}
   - component: {fileID: 212350468476451732}
-  - component: {fileID: 212350468476451733}
   m_Layer: 0
   m_Name: Display Dot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4158314235517914
 Transform:
   m_ObjectHideFlags: 0
@@ -903,22 +950,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &212350468476451733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1522068306222396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c87044ed3055a4fc6bdb64e2434550ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: {fileID: 9139946863702694113}
-  sprite: {fileID: 212350468476451732}
-  dotsColorGenerator: {fileID: 1353404645}
-  sumValue: 0
 --- !u!1 &4218901349789700876
 GameObject:
   m_ObjectHideFlags: 0
@@ -1062,3 +1093,4 @@ SceneRoots:
   - {fileID: 1768637030}
   - {fileID: 1016079818}
   - {fileID: 1353404646}
+  - {fileID: 1202435331}

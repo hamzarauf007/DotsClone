@@ -1,46 +1,57 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using TMPro;
 
 public class DisplayDot : MonoBehaviour
 {
-    [SerializeField]
+    [SerializeField] 
     private TextMeshPro text;
-    [SerializeField]
+    [SerializeField] 
     private SpriteRenderer sprite;
-    [SerializeField]
+    [SerializeField] 
+    private GameObject obj;
+    [SerializeField] 
     private DotsColorGenerator dotsColorGenerator;
 
-    [SerializeField]
     private int sumValue = 0;
-    
-    private GameObject obj;
+    private List<int> currentValues = new List<int>(); // Tracks values of currently selected dots
 
-    private void Awake()
+    public void AdjustValueAndColor(int value, bool adding)
     {
-        obj = this.gameObject;
-    }
-
-    public void CalculateColorAgainstValue(int value)
-    {
-        if (value != 0)
+        obj.SetActive(true);
+        
+        if (adding)
         {
-            sumValue += value;
-            obj.SetActive(true);
+            currentValues.Add(value);
         }
         else
         {
-            sumValue = 0;
-            obj.SetActive(false);
-            return;
+            currentValues.Remove(value);
         }
-        
-        // Placeholder for color determination logic
-        // This method should map the value to a specific color
-        if (dotsColorGenerator.sequence.ContainsKey(sumValue))
+
+        UpdateSumAndColor();
+    }
+
+    private void UpdateSumAndColor()
+    {
+        sumValue = currentValues.Sum(); // Recalculate the sum
+
+        if (sumValue > 0)
         {
-            // Retrieve the value associated with the key
-           sprite.color = dotsColorGenerator.sequence[sumValue];
-           text.text = sumValue.ToString();
+            var key = dotsColorGenerator.sequence.Keys
+                .Where(k => k <= sumValue)
+                .DefaultIfEmpty(2)
+                .Max(); // Find the highest key that is less than or equal to the sumValue
+            
+            sprite.color = dotsColorGenerator.sequence[key];
+            text.text = key.ToString(); // Or key.ToString() if you want to display the found key
         }
+    }
+
+    public void DeActivate()
+    {
+        currentValues.Clear();
+        obj.SetActive(false);
     }
 }

@@ -53,7 +53,7 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
     {
         if (currentDotPath.Count == 0)
         {
-            SumOfDots(dot.DotType);
+            SumOfDots(dot.DotType, true);
             dot.Activate();
             currentDotPath.Add(dot);
         }
@@ -64,7 +64,7 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
             // Check if the newly selected dot is the penultimate in the current path (for deselection)
             if (currentDotPath.Count > 1 && dot == currentDotPath[currentDotPath.Count - 2])
             {
-                SumOfDots(-dot.DotType);
+                SumOfDots(dot.DotType, false);
                 // Deselect the last dot in the path
                 lastDot.Deactivate();
                 currentDotPath.RemoveAt(currentDotPath.Count - 1);
@@ -85,7 +85,7 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
                     Mathf.Abs(newDotY - lastDotY) <= 1                  // Only one step away on the board vertically or diagonally
                 )
                 {
-                    SumOfDots(dot.DotType);
+                    SumOfDots(dot.DotType, true);
                     dot.Activate();
                     currentDotPath.Add(dot);
                     SetPathDisplayColor(currentPathDisplay, dot.spriteColor);
@@ -148,7 +148,8 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
             currentDotPath.ForEach(d => d.Deactivate());
         }
 
-        SumOfDots(0);
+        // SumOfDots(0, true);
+        DeActivateDot();
         // Reset the path display
         currentPathDisplay.enabled = false;
         currentPathDisplay.positionCount = 0;
@@ -210,9 +211,14 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
         yield return true;
     }
 
-    private void SumOfDots(int value)
+    private void SumOfDots(int value, bool adding)
     {
-        displayDot.CalculateColorAgainstValue(value);
+        displayDot.AdjustValueAndColor(value, adding);
     }
-    
+
+    private void DeActivateDot()
+    {
+        displayDot.DeActivate();
+    }
+
 }
