@@ -3,9 +3,11 @@ using UnityEngine;
 
 public class DotPool : MonoBehaviour
 {
-    public int initialPoolSize = 50;
+    [SerializeField]
+    private int initialPoolSize = 50;
     
-    public GameObject dotPrefab;
+    [SerializeField]
+    private GameObject dotPrefab;
     
     private Queue<Dot> availableDots = new Queue<Dot>();
 

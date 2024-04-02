@@ -7,15 +7,20 @@ using UI;
 public class BoardController : SingletonMonoBehaviour<BoardController>
 {
 
-    public int width = 5;
-    public int height = 5;
+    [SerializeField]
+    private int width = 5;
+    [SerializeField]
+    private int height = 5;
     
-    public LineRenderer currentPathDisplay = null;
-    public DotFactory dotFactory;
-    public DotPool dotPool;
     
     [SerializeField]
-    private int sumValue = 0;
+    private LineRenderer currentPathDisplay = null;
+    [SerializeField]
+    private DotFactory dotFactory;
+    [SerializeField]
+    private DotPool dotPool;
+    [SerializeField]
+    private DisplayDot displayDot;
     
     private Dot[,] dotsCollection;
 
@@ -141,9 +146,9 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
         {
             // If there was only one dot, simply deactivate it
             currentDotPath.ForEach(d => d.Deactivate());
-            SumOfDots(0);
         }
 
+        SumOfDots(0);
         // Reset the path display
         currentPathDisplay.enabled = false;
         currentPathDisplay.positionCount = 0;
@@ -207,15 +212,7 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
 
     private void SumOfDots(int value)
     {
-        if (value != 0)
-        {
-            sumValue += value;
-        }
-        else
-        {
-            sumValue = 0;
-        }
+        displayDot.CalculateColorAgainstValue(value);
     }
-
-
+    
 }

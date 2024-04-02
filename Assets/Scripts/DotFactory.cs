@@ -2,9 +2,12 @@ using UnityEngine;
 
 public class DotFactory : MonoBehaviour, IDotFactory
 {
-    public Transform board;
-    public DotPool dotPool;
-    public DotsColorGenerator dotsColorGenerator;
+    [SerializeField]
+    private Transform board;
+    [SerializeField]
+    private DotPool dotPool;
+    [SerializeField]
+    private DotsColorGenerator dotsColorGenerator;
 
     public int interval = 4;
 

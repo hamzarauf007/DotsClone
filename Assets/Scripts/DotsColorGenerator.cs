@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class DotsColorGenerator : MonoBehaviour
 {
-    public int maxSeq = 10000;
-    public int colorSpread = 1;
+    [SerializeField]
+    private int maxSeq = 10000;
+    [SerializeField]
+    private int colorSpread = 1;
     
     public readonly Dictionary<int, Color> sequence = new Dictionary<int, Color>();
     
