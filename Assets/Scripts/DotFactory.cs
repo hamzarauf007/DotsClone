@@ -21,7 +21,7 @@ public class DotFactory : MonoBehaviour, IDotFactory
         // Here, you could also set the dot's value and color
         int value = CalculateValueForDot(); // Implement this method based on your game logic
         Color çolor = CalculateColorForValue(value); // Implement this method based on your game logic
-        dot.Setup(value, row, col, çolor);
+        dot.InitialSetup(value, row, col, çolor);
         return dot;
     }
 

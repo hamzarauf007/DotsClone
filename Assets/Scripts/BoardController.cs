@@ -53,7 +53,8 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
     {
         if (currentDotPath.Count == 0)
         {
-            SumOfDots(dot.DotType, true);
+            SetPathDisplayColor(currentPathDisplay, dot.SpriteColor);
+            SumOfDots(dot.DotValue, true);
             dot.Activate();
             currentDotPath.Add(dot);
         }
@@ -64,7 +65,7 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
             // Check if the newly selected dot is the penultimate in the current path (for deselection)
             if (currentDotPath.Count > 1 && dot == currentDotPath[currentDotPath.Count - 2])
             {
-                SumOfDots(dot.DotType, false);
+                SumOfDots(dot.DotValue, false);
                 // Deselect the last dot in the path
                 lastDot.Deactivate();
                 currentDotPath.RemoveAt(currentDotPath.Count - 1);
@@ -79,16 +80,15 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
 
                 if (
                     lastDot != dot &&                                   // Not the same as the last dot
-                    lastDot.DotType == dot.DotType &&                   // Same type of dot
+                    lastDot.DotValue == dot.DotValue &&                   // Same type of dot
                     !currentDotPath.Contains(dot) &&                    // Not already in the current path
                     Mathf.Abs(newDotX - lastDotX) <= 1 &&               // Only one step away on the board horizontally or diagonally
                     Mathf.Abs(newDotY - lastDotY) <= 1                  // Only one step away on the board vertically or diagonally
                 )
                 {
-                    SumOfDots(dot.DotType, true);
+                    SumOfDots(dot.DotValue, true);
                     dot.Activate();
                     currentDotPath.Add(dot);
-                    SetPathDisplayColor(currentPathDisplay, dot.spriteColor);
                 }
             }
         }
@@ -135,8 +135,7 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
                         
                         if (tweensCompleted == dotsToTween)
                         {
-                            lastDot.sprite.color = displayDot.dotNewColor;
-                            lastDot.DotType = displayDot.sumOfDots;
+                            lastDot.SetDotValueColor(displayDot.sumOfDots, displayDot.dotNewColor);
                             // Once all dots have finished tweening, proceed to move remaining dots down after a delay
                             StartCoroutine(DelayedGridUpdate(0.2f)); // Wait for 1 second before starting grid update
                         }
@@ -178,7 +177,7 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
                             Dot dotToMove = dotsCollection[i, col];
                             dotsCollection[i, col] = null; // Remove from current position
                             dotsCollection[row, col] = dotToMove;
-                            dotToMove.Row = row; // Update its row to the new position
+                            dotToMove.UpdateRow(row); // Update its row to the new position
                             dotToMove.gameObject.name = dotFactory.GenerateDotName(dotToMove.Column, dotToMove.Row);
                             
                             StartCoroutine(UIHelpers.TweenPosition(dotToMove.transform, new Vector2(col, row), 0.2f));

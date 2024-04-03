@@ -4,27 +4,38 @@ using TMPro;
 public class Dot : MonoBehaviour
 {
 
-    public SpriteRenderer sprite;
-    
-    public int DotType = 0;
-    public int Row = 0;
-    public int Column = 0;
-    
-    [HideInInspector]
-    public Color spriteColor;
-    
+    [SerializeField]
+    private SpriteRenderer sprite;
     [SerializeField]
     private TextMeshPro text;
     
+    public int DotValue { get; private set; }
+    public int Row { get; private set; }
+    public int Column { get; private set; }
     
-    public void Setup(int dotType, int row, int column, Color color)
+    public Color SpriteColor { get; private set; }
+    
+    public void InitialSetup(int dotValue, int row, int column, Color color)
     {
-        DotType = dotType;
+        DotValue = dotValue;
         Row = row;
         Column = column;
-        spriteColor = color;
+        SpriteColor = color;
         sprite.color = color;
-        text.text = dotType.ToString();
+        text.text = dotValue.ToString();
+    }
+
+    public void SetDotValueColor(int value, Color color)
+    {
+        DotValue = value;
+        sprite.color = color;
+        SpriteColor = color;
+        text.text = value.ToString();
+    }
+
+    public void UpdateRow(int row)
+    {
+        Row = row;
     }
 
     public void Activate()
