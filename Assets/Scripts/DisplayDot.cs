@@ -16,7 +16,7 @@ public class DisplayDot : MonoBehaviour
     
     private int sumValue = 0;
     private int highestValueTracker = 0;
-    private List<int> currentValues = new List<int>(); // Tracks values of currently selected dots
+    public List<int> currentValues = new List<int>(); // Tracks values of currently selected dots
 
     [HideInInspector]
     public int sumOfDots;

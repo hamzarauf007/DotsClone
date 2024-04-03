@@ -65,9 +65,8 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
             // Check if the newly selected dot is the penultimate in the current path (for deselection)
             if (currentDotPath.Count > 1 && dot == currentDotPath[currentDotPath.Count - 2])
             {
-                SumOfDots(dot.DotValue, false);
-                // Deselect the last dot in the path
                 lastDot.Deactivate();
+                SumOfDots(dot.DotValue, false);
                 currentDotPath.RemoveAt(currentDotPath.Count - 1);
             }
             else
@@ -135,12 +134,14 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
                         
                         if (tweensCompleted == dotsToTween)
                         {
+                            lastDot.PopUp();
                             lastDot.SetDotValueColor(displayDot.sumOfDots, displayDot.dotNewColor);
                             // Once all dots have finished tweening, proceed to move remaining dots down after a delay
                             StartCoroutine(DelayedGridUpdate(0.2f)); // Wait for 1 second before starting grid update
                         }
                     }));
                 }
+                dot.Deactivate();
             }
         }
         else
@@ -187,7 +188,7 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
         }
 
         // After moving dots down, generate and show new dots
-        StartCoroutine(CreateAndShowNewDots(0.2f)); // Adjust delay as needed based on your game's behavior
+        StartCoroutine(CreateAndShowNewDots(0.35f)); // Adjust delay as needed based on your game's behavior
     }
     
     IEnumerator CreateAndShowNewDots(float delay)

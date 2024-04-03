@@ -78,7 +78,6 @@ public class DotFactory : MonoBehaviour, IDotFactory
 
     private void IncreaseSpawnValue()
     {
-        Debug.LogError("IncreaseSpawnValue");
         var nextValue = dotsColorGenerator.sequence.Keys.FirstOrDefault(k => k > currentMaxSpawnValue);
         if (nextValue != 0) 
         {

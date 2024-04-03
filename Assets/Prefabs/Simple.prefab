@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 212350468001337522}
   - component: {fileID: 58555143392361768}
   - component: {fileID: 114053398432159114}
+  - component: {fileID: 8447192000041942001}
   m_Layer: 0
   m_Name: Simple
   m_TagString: Untagged
@@ -135,11 +136,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 212350468001337522}
-  DotType: 0
-  Row: 0
-  Column: 0
-  spriteColor: {r: 0, g: 0, b: 0, a: 0}
   text: {fileID: 9139946864165483463}
+  popUpScale: {x: 1.07, y: 1.07}
+  anim: {fileID: 8447192000041942001}
+--- !u!95 &8447192000041942001
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522068776678938}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7ae2fddc7a1db4ff9999ee0ca8c1c84f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4218901349323454506
 GameObject:
   m_ObjectHideFlags: 0

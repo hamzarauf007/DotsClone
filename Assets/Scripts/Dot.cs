@@ -8,6 +8,8 @@ public class Dot : MonoBehaviour
     private SpriteRenderer sprite;
     [SerializeField]
     private TextMeshPro text;
+    [SerializeField] 
+    private Animator anim;
     
     public int DotValue { get; private set; }
     public int Row { get; private set; }
@@ -40,11 +42,16 @@ public class Dot : MonoBehaviour
 
     public void Activate()
     {
-        // this.highlight.SetActive(true);
+        anim.SetBool("ScaleUp",true);
     }
 
     public void Deactivate()
     {
-        // this.highlight.SetActive(false);
+        anim.SetBool("ScaleUp",false);
+    }
+
+    public void PopUp()
+    {
+        anim.SetTrigger("PopUp");
     }
 }
