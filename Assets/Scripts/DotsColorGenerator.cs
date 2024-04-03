@@ -27,7 +27,6 @@ public class DotsColorGenerator : MonoBehaviour
             float blue = Mathf.Sin(frequency * i + 4) * 0.5f + 0.5f;
             Color color = new Color(red, green, blue);
             
-            // Debug.LogError(currentValue);
             sequence.Add(currentValue,color);
             currentValue *= 2;
             i = currentValue;

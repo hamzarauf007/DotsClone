@@ -1,4 +1,7 @@
+using System;
+using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class DotFactory : MonoBehaviour, IDotFactory
 {
@@ -8,9 +11,11 @@ public class DotFactory : MonoBehaviour, IDotFactory
     private DotPool dotPool;
     [SerializeField]
     private DotsColorGenerator dotsColorGenerator;
-
-    public int interval = 4;
-
+    [SerializeField]
+    private int currentMaxSpawnValue = 2;
+    
+    private int complexityNumber;
+    
     public Dot GetDot(int col, int row)
     {
         // Retrieve a dot from the pool and set its position
@@ -18,10 +23,10 @@ public class DotFactory : MonoBehaviour, IDotFactory
         dot.transform.position = new Vector2(col, row);
         dot.transform.parent = board;
         dot.gameObject.name = GenerateDotName(col, row);
-        // Here, you could also set the dot's value and color
-        int value = CalculateValueForDot(); // Implement this method based on your game logic
-        Color çolor = CalculateColorForValue(value); // Implement this method based on your game logic
+        int value = CalculateValueForDot();
+        Color çolor = CalculateColorForValue(value);
         dot.InitialSetup(value, row, col, çolor);
+        OnMissionComplete();
         return dot;
     }
 
@@ -32,10 +37,13 @@ public class DotFactory : MonoBehaviour, IDotFactory
 
     private int CalculateValueForDot()
     {
-        int exponent = Random.Range(1, interval);
+        // Filter the keys to include only those less than or equal to currentMaxSpawnValue
+        var possibleValues = dotsColorGenerator.sequence.Keys.Where(k => k <= currentMaxSpawnValue).ToList();
 
-        // Calculate 2 to the power of 'exponent'
-        return (int)Mathf.Pow(2, exponent);
+        // Randomly select a value from these keys
+        int randomIndex = Random.Range(0, possibleValues.Count);
+        randomIndex = possibleValues[randomIndex];
+        return randomIndex;
     }
 
     private Color CalculateColorForValue(int value)
@@ -57,5 +65,25 @@ public class DotFactory : MonoBehaviour, IDotFactory
     public string GenerateDotName(int col, int row)
     {
         return $"Dot ({col},{row})";
+    }
+
+    // Mocking the mission complete logic
+    private void OnMissionComplete()
+    {
+        complexityNumber++;
+        if (complexityNumber % 60 == 0)
+        {
+            IncreaseSpawnValue();
+        }
+    }
+
+    private void IncreaseSpawnValue()
+    {
+        Debug.LogError("IncreaseSpawnValue");
+        var nextValue = dotsColorGenerator.sequence.Keys.FirstOrDefault(k => k > currentMaxSpawnValue);
+        if (nextValue != 0) 
+        {
+            currentMaxSpawnValue = nextValue;
+        }
     }
 }

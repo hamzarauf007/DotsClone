@@ -468,7 +468,7 @@ GameObject:
   - component: {fileID: 1016079818}
   - component: {fileID: 1016079817}
   m_Layer: 0
-  m_Name: DotPooler
+  m_Name: Dot Pooler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -486,7 +486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ebd01bab939b49fab63970f7c0b3ed0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialPoolSize: 100
+  initialPoolSize: 10
   dotPrefab: {fileID: 1522068776678938, guid: 5a7fc50b31a3f424a9e7579bfa4cfff2, type: 3}
 --- !u!4 &1016079818
 Transform:
@@ -536,6 +536,8 @@ MonoBehaviour:
   sprite: {fileID: 212350468476451732}
   obj: {fileID: 1522068306222396}
   dotsColorGenerator: {fileID: 1353404645}
+  sumOfDots: 0
+  dotNewColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!4 &1202435331
 Transform:
   m_ObjectHideFlags: 0
@@ -562,7 +564,7 @@ GameObject:
   - component: {fileID: 1353404646}
   - component: {fileID: 1353404645}
   m_Layer: 0
-  m_Name: DotsColorGenerator
+  m_Name: Dots Color Generator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -658,7 +660,7 @@ GameObject:
   - component: {fileID: 1768637030}
   - component: {fileID: 1768637031}
   m_Layer: 0
-  m_Name: DotFactory
+  m_Name: Dot Factory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -694,7 +696,7 @@ MonoBehaviour:
   board: {fileID: 1701944361}
   dotPool: {fileID: 1016079817}
   dotsColorGenerator: {fileID: 1353404645}
-  interval: 4
+  currentMaxSpawnValue: 8
 --- !u!1 &1963800349
 GameObject:
   m_ObjectHideFlags: 0
@@ -790,7 +792,7 @@ GameObject:
   - component: {fileID: 2106112845}
   - component: {fileID: 2106112844}
   m_Layer: 0
-  m_Name: InputController
+  m_Name: Input Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
