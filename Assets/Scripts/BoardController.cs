@@ -148,8 +148,6 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
             // If there was only one dot, simply deactivate it
             currentDotPath.ForEach(d => d.Deactivate());
         }
-
-        // SumOfDots(0, true);
         DeActivateDot();
         // Reset the path display
         currentPathDisplay.enabled = false;

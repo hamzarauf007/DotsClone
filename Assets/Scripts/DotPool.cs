@@ -46,7 +46,6 @@ public class DotPool : MonoBehaviour
 
     public void ReturnDotToPool(Dot dot)
     {
-        Debug.Log(dot.gameObject.name);
         dot.transform.parent = transform;
         dot.gameObject.SetActive(false);
         availableDots.Enqueue(dot);

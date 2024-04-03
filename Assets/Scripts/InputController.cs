@@ -25,7 +25,6 @@ public class InputController : SingletonMonoBehaviour<InputController>
             if (hit2D.collider)
             {
                 var dot = hit2D.transform.GetComponent<Dot>();
-                //Debug.Log("Hit dot " + dot.name);
                 OnDotTouched(dot);
             }
         }
@@ -34,14 +33,12 @@ public class InputController : SingletonMonoBehaviour<InputController>
     private void OnFinishedTouch()
     {
         isDragging = false;
-        // clear selection
         BoardController.Instance.FinalizeDotSelection(currentDotPath);
         currentDotPath.Clear();
     }
 
     private void OnDotTouched(Dot dot)
     {
-        //Debug.Log("new dot touched : " + dot.name);
         BoardController.Instance.UpdateDotSelection(dot, currentDotPath);
     }
 
