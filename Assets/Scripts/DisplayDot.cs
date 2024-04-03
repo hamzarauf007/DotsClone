@@ -13,10 +13,15 @@ public class DisplayDot : MonoBehaviour
     private GameObject obj;
     [SerializeField] 
     private DotsColorGenerator dotsColorGenerator;
-
+    
     private int sumValue = 0;
     private List<int> currentValues = new List<int>(); // Tracks values of currently selected dots
 
+    [HideInInspector]
+    public int sumOfDots;
+    [HideInInspector]
+    public Color dotNewColor;
+    
     public void AdjustValueAndColor(int value, bool adding)
     {
         obj.SetActive(true);
@@ -44,8 +49,11 @@ public class DisplayDot : MonoBehaviour
                 .DefaultIfEmpty(2)
                 .Max(); // Find the highest key that is less than or equal to the sumValue
             
-            sprite.color = dotsColorGenerator.sequence[key];
-            text.text = key.ToString(); // Or key.ToString() if you want to display the found key
+            dotNewColor =  dotsColorGenerator.sequence[key];
+            sprite.color = dotNewColor;
+            
+            text.text = key.ToString();
+            sumOfDots = key;
         }
     }
 

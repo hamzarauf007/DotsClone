@@ -135,6 +135,8 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
                         
                         if (tweensCompleted == dotsToTween)
                         {
+                            lastDot.sprite.color = displayDot.dotNewColor;
+                            lastDot.DotType = displayDot.sumOfDots;
                             // Once all dots have finished tweening, proceed to move remaining dots down after a delay
                             StartCoroutine(DelayedGridUpdate(0.2f)); // Wait for 1 second before starting grid update
                         }
