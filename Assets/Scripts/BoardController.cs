@@ -179,7 +179,7 @@ public class BoardController : SingletonMonoBehaviour<BoardController>
                             dotToMove.UpdateRow(row); // Update its row to the new position
                             dotToMove.gameObject.name = dotFactory.GenerateDotName(dotToMove.Column, dotToMove.Row);
                             
-                            StartCoroutine(UIHelpers.TweenPosition(dotToMove.transform, new Vector2(col, row), 0.2f));
+                            StartCoroutine(UIHelpers.TweenPosition(dotToMove.transform, new Vector2(col, row), 0.2f, () => dotToMove.FallingAnimation())); //what
                             break; // Break since we've found a dot to move down into this space
                         }
                     }

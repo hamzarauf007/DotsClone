@@ -10,7 +10,11 @@ public class Dot : MonoBehaviour
     private TextMeshPro text;
     [SerializeField] 
     private Animator anim;
-    
+
+    private static readonly int ScaleUp = Animator.StringToHash("ScaleUp");
+    private static readonly int Up = Animator.StringToHash("PopUp");
+    private static readonly int Falling = Animator.StringToHash("Falling");
+
     public int DotValue { get; private set; }
     public int Row { get; private set; }
     public int Column { get; private set; }
@@ -42,16 +46,21 @@ public class Dot : MonoBehaviour
 
     public void Activate()
     {
-        anim.SetBool("ScaleUp",true);
+        anim.SetBool(ScaleUp,true);
     }
 
     public void Deactivate()
     {
-        anim.SetBool("ScaleUp",false);
+        anim.SetBool(ScaleUp,false);
     }
 
     public void PopUp()
     {
-        anim.SetTrigger("PopUp");
+        anim.SetTrigger(Up);
+    }
+
+    public void FallingAnimation()
+    {
+        anim.SetTrigger(Falling);
     }
 }

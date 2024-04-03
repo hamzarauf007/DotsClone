@@ -536,6 +536,7 @@ MonoBehaviour:
   sprite: {fileID: 212350468476451732}
   obj: {fileID: 1522068306222396}
   dotsColorGenerator: {fileID: 1353404645}
+  currentValues: 
   sumOfDots: 0
   dotNewColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!4 &1202435331
