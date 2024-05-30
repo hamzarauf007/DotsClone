@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomPropertyDrawer(typeof(MyCustomType))]
+// [CustomPropertyDrawer(typeof(Car))]
 public class MyCustomTypeDrawer : PropertyDrawer
 {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

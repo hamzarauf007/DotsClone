@@ -4,8 +4,8 @@ using UnityEditor;
 namespace Editor
 {
     public class BasicObjectSpawner : EditorWindow
-    {
-        private string objectBaseName = "";
+    { 
+        private string objectBaseName = ""; 
         private int objectId = 0;
         private GameObject gameObjectToSpawn;
         private float objectScale = 1f;

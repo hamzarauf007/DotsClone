@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; justify-content: flex-start; align-self: auto;">
+        <ui:VisualElement name="Container" style="flex-grow: 1; justify-content: flex-end; align-items: flex-start; margin-left: 15%; margin-right: 15%; align-self: auto; flex-direction: column; transform-origin: center; background-color: rgb(94, 84, 84); display: flex;">
+            <ui:Button text="Button" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
